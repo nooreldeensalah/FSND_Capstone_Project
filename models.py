@@ -1,16 +1,22 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
 
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = CONNECTION_STRING
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = os.urandom(32)
-db = SQLAlchemy(app)
+
+db = SQLAlchemy()
+
+
+def setup_db(app):
+    app.config["SQLALCHEMY_DATABASE_URI"] = CONNECTION_STRING
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SECRET_KEY"] = os.urandom(32)
+    db.app = app
+    db.init_app(app)
+    db.create_all()
+
 
 association_table = db.Table(
     "movie_actor",
