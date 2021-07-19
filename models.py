@@ -15,7 +15,6 @@ def setup_db(app):
     app.config["SECRET_KEY"] = os.urandom(32)
     db.app = app
     db.init_app(app)
-    db.create_all()
 
 
 association_table = db.Table(

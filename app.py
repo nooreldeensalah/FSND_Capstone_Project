@@ -18,10 +18,42 @@ def create_app(test_config=None):
         response.headers.add("Access-Control-Allow-Methods", allowed_methods)
         return response
 
+    @app.route("/movies")
+    def get_movies():
+        pass
+
+    @app.route("/actors")
+    def get_actors():
+        pass
+
+    @app.route("/movies", methods=["POST"])
+    def insert_movie():
+        pass
+
+    @app.route("/actors", methods=["POST"])
+    def insert_actor():
+        pass
+
+    @app.route("/movies/<int:movie_id>", methods=["DELETE"])
+    def delete_movie(movie_id):
+        pass
+
+    @app.route("/actors/<int:actor_id>", methods=["DELETE"])
+    def delete_actor(actor_id):
+        pass
+
+    @app.route("/movies/<int:movie_id>", methods=["PUT"])
+    def update_movie(movie_id):
+        pass
+
+    @app.route("/actors/<int:actor_id>", methods=["PUT"])
+    def update_actor(actor_id):
+        pass
+
     return app
 
 
-APP = create_app()
+app = create_app()
 
 if __name__ == "__main__":
-    APP.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)
