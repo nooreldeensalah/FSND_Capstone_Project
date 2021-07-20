@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import flask
 from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 from models import setup_db, Movie, Actor
@@ -34,11 +37,31 @@ def create_app(test_config=None):
 
     @app.route("/movies", methods=["POST"])
     def insert_movie():
-        pass
+        request_body = request.get_json()
+        if any([not request_body[key] for key in request_body]):
+            abort(400)
+        try:
+            title = request_body["title"]
+            # Expected datetime format example: "March 11, 1998"
+            release_date = datetime.strptime(request_body["release_date"], "%B %d, %Y")
+            genre = request_body["genre"]
+            movie = Movie(title=title, release_date=release_date, genre=genre)
+            movie.insert()
+            return flask.Response(status=201)
+        except BaseException:
+            abort(422)
 
     @app.route("/actors", methods=["POST"])
     def insert_actor():
-        pass
+        request_body = request.get_json()
+        if any([not request_body[key] for key in request_body]):
+            abort(400)
+        try:
+            actor = Actor(**request_body)
+            actor.insert()
+            return flask.Response(status=201)
+        except BaseException:
+            abort(422)
 
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
     def delete_movie(movie_id):
