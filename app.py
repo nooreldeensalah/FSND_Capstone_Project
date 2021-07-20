@@ -63,13 +63,24 @@ def create_app(test_config=None):
         except BaseException:
             abort(422)
 
+    #  DELETE NOTES:
+    #  -------------
+    #  From this link: https://restfulapi.net/http-methods/#delete
+    #  it's stated that DELETE operations with no response should return 204.
+    #  I found that the community is divided whether if deleting non-existent resources should return 404, or 204
+    #  For the sake of simplicity, I'll use 404.
+
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
     def delete_movie(movie_id):
-        pass
+        movie = Movie.query.get(movie_id)
+        movie.delete() if movie is not None else abort(404)
+        return flask.Response(status=204)
 
     @app.route("/actors/<int:actor_id>", methods=["DELETE"])
     def delete_actor(actor_id):
-        pass
+        actor = Movie.query.get(actor_id)
+        actor.delete() if actor is not None else abort(404)
+        return flask.Response(status=204)
 
     @app.route("/movies/<int:movie_id>", methods=["PUT"])
     def update_movie(movie_id):
