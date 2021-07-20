@@ -5,7 +5,6 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
 
-
 db = SQLAlchemy()
 
 
@@ -29,6 +28,7 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     release_date = db.Column(db.DateTime, nullable=False)
+    genre = db.Column(db.String(80), nullable=False)
     actors = db.relationship("Actor", secondary="movie_actor", backref="movies")
 
     def add_actor(self, actor_id):
@@ -49,6 +49,15 @@ class Movie(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def format(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "genre": self.genre,
+            "release_date": self.release_date.strftime("%B %d, %Y"),
+            "actors": [actor.name for actor in self.actors],
+        }
 
     def __repr__(self):
         return f"Movie(title={self.title}, release_date={self.release_date.strftime('%B %d, %Y')})"
@@ -79,6 +88,15 @@ class Actor(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def format(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "age": self.age,
+            "gender": self.gender,
+            "movies": [movie.title for movie in self.movies],
+        }
 
     def __repr__(self):
         return f"Actor(name={self.name}, age={self.age}, gender={self.gender})"

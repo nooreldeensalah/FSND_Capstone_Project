@@ -1,6 +1,6 @@
 from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
-from models import setup_db
+from models import setup_db, Movie, Actor
 
 
 def create_app(test_config=None):
@@ -20,11 +20,17 @@ def create_app(test_config=None):
 
     @app.route("/movies")
     def get_movies():
-        pass
+        page = request.args.get("page", 1, type=int)
+        movies_per_page = request.args.get("limit", 10, type=int)
+        movies = Movie.query.paginate(page, movies_per_page).items
+        return jsonify({"movies": [movie.format() for movie in movies]})
 
     @app.route("/actors")
     def get_actors():
-        pass
+        page = request.args.get("page", 1, type=int)
+        actors_per_page = request.args.get("limit", 10, type=int)
+        actors = Actor.query.paginate(page, actors_per_page).items
+        return jsonify({"actors": [actor.format() for actor in actors]})
 
     @app.route("/movies", methods=["POST"])
     def insert_movie():
@@ -56,4 +62,4 @@ def create_app(test_config=None):
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=False)
