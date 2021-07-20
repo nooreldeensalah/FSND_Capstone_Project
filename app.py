@@ -84,11 +84,45 @@ def create_app(test_config=None):
 
     @app.route("/movies/<int:movie_id>", methods=["PUT"])
     def update_movie(movie_id):
-        pass
+        movie = Movie.query.get(movie_id)
+        if movie is None:
+            abort(404)
+        request_body = request.get_json()
+        title = request_body.get("title", None)
+        genre = request_body.get("genre", None)
+        release_date = request_body.get("release_date", None)
+        try:
+            if title:
+                movie.title = title
+            if genre:
+                movie.genre = genre
+            if release_date:
+                movie.release_date = datetime.strptime(release_date, "%B %d, %Y")
+            movie.update()
+        except BaseException:
+            abort(422)
+        return flask.Response(status=204)
 
     @app.route("/actors/<int:actor_id>", methods=["PUT"])
     def update_actor(actor_id):
-        pass
+        actor = Actor.query.get(actor_id)
+        if actor is None:
+            abort(404)
+        request_body = request.get_json()
+        name = request_body.get("name", None)
+        age = request_body.get("age", None)
+        gender = request_body.get("gender", None)
+        try:
+            if name:
+                actor.name = name
+            if age:
+                actor.age = age
+            if gender:
+                actor.gender = gender
+            actor.update()
+        except:
+            abort(422)
+        return flask.Response(status=204)
 
     return app
 

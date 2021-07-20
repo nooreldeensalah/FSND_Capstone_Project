@@ -60,7 +60,7 @@ class Movie(db.Model):
         }
 
     def __repr__(self):
-        return f"Movie(title={self.title}, release_date={self.release_date.strftime('%B %d, %Y')})"
+        return f"Movie(title={self.title}, genre={self.genre}, release_date={self.release_date.strftime('%B %d, %Y')})"
 
 
 class Actor(db.Model):
