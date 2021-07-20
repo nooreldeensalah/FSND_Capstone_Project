@@ -31,10 +31,7 @@ class Movie(db.Model):
     genre = db.Column(db.String(80), nullable=False)
     actors = db.relationship("Actor", secondary="movie_actor", backref="movies")
 
-    def add_actor(self, actor_id):
-        actor = Actor.query.get(actor_id)
-        if actor is None:
-            return "Actor not found"
+    def add_actor(self, actor):
         self.actors.append(actor)
         db.session.commit()
 
@@ -70,10 +67,7 @@ class Actor(db.Model):
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.Enum("Male", "Female", name="gender"), nullable=False)
 
-    def add_movie(self, movie_id):
-        movie = Movie.query.get(movie_id)
-        if movie is None:
-            return "Movie not found"
+    def add_movie(self, movie):
         self.movies.append(movie)
         db.session.commit()
 

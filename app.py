@@ -124,10 +124,33 @@ def create_app(test_config=None):
             abort(422)
         return flask.Response(status=204)
 
+    # I've designed models to be a many-to-many relationship between actors and movies.
+    # For a specific movie, there's a cast of actors.
+    # And an actor has a list of movies that he is/was featured in.
+    # The first method adds an actor to a movie's cast.
+    # The second methods adds a movie to an actor's past/present movies list.
+    @app.route("/movies/<int:movie_id>/actors/<int:actor_id>", methods=["POST"])
+    def add_actor_to_movie_cast(movie_id, actor_id):
+        movie = Movie.query.get(movie_id)
+        actor = Actor.query.get(actor_id)
+        if actor is None or movie is None:
+            abort(404)
+        movie.add_actor(actor)
+        return flask.Response(status=204)
+
+    @app.route("/actors/<int:actor_id>/movies/<int:movie_id>", methods=["POST"])
+    def add_movie_to_actor_movies_list(actor_id, movie_id):
+        actor = Actor.query.get(actor_id)
+        movie = Movie.query.get(movie_id)
+        if actor is None or movie is None:
+            abort(404)
+        actor.add_movie(movie)
+        return flask.Response(status=204)
+
     return app
 
 
-app = create_app()
+APP = create_app()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    APP.run(host="0.0.0.0", port=8080, debug=False)
