@@ -129,7 +129,7 @@ def create_app(test_config=None):
             if gender:
                 actor.gender = gender
             actor.update()
-        except:
+        except BaseException:
             abort(422)
         return flask.Response(status=204)
 
@@ -158,10 +158,36 @@ def create_app(test_config=None):
         actor.add_movie(movie)
         return flask.Response(status=204)
 
+    @app.errorhandler(AuthError)
+    def authorization_error(error):
+        status_code = error.status_code
+        return jsonify({"error": status_code, "message": error.error}), status_code
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({"error": 400, "message": error.description}), 400
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({"error": 404, "message": error.description}), 404
+
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+        return jsonify({"error": 405, "message": error.description}), 405
+
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({"error": 422, "message": error.description}), 422
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return jsonify({"error": 500, "message": error.description}), 500
+
     return app
 
 
 APP = create_app()
+
 
 if __name__ == "__main__":
     APP.run(host="0.0.0.0", port=8080, debug=False)
