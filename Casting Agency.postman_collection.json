@@ -1,212 +1,15 @@
 {
 	"info": {
-		"_postman_id": "c614dfc2-1378-4531-ad90-e06cf28685f2",
-		"name": "udacity-fsnd-udaspicelatte",
+		"_postman_id": "bb90c45e-1d59-496b-bb3a-958e0e33a12d",
+		"name": "Casting Agency",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "public",
+			"name": "Casting Assistant",
 			"item": [
 				{
-					"name": "/drinks",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains drinks array\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.drinks).to.be.an('array')",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/drinks",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"drinks"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/drinks-detail",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
-									"    pm.response.to.have.status(401);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/drinks-detail",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"drinks-detail"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/drinks",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
-									"    pm.response.to.have.status(401);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/drinks",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"drinks"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/drinks/1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
-									"    pm.response.to.have.status(401);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/drinks/1",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"drinks",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/drinks/1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
-									"    pm.response.to.have.status(401);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/drinks/1",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"drinks",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "barista",
-			"item": [
-				{
-					"name": "/drinks",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains drinks array\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.drinks).to.be.an('array')",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/drinks",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"drinks"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/drinks-detail",
+					"name": "/movies",
 					"event": [
 						{
 							"listen": "test",
@@ -224,19 +27,49 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks-detail",
+							"raw": "{{host}}/movies",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks-detail"
+								"movies"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/drinks",
+					"name": "/actors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/actors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"actors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movies",
 					"event": [
 						{
 							"listen": "test",
@@ -253,20 +86,29 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"The Shawshink Redemption\",\r\n    \"release_date\": \"September 10, 1994\",\r\n    \"genre\": \"Prison|Drama|Crime Fiction\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host}}/drinks",
+							"raw": "{{host}}/movies",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks"
+								"movies"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/drinks/1",
+					"name": "/movies/1",
 					"event": [
 						{
 							"listen": "test",
@@ -283,13 +125,22 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"The Shawshink Redemption\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host}}/drinks/1",
+							"raw": "{{host}}/movies/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks",
+								"movies",
 								"1"
 							]
 						}
@@ -297,7 +148,7 @@
 					"response": []
 				},
 				{
-					"name": "/drinks/1",
+					"name": "/movies/1",
 					"event": [
 						{
 							"listen": "test",
@@ -315,12 +166,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks/1",
+							"raw": "{{host}}/movies/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks",
+								"movies",
 								"1"
 							]
 						}
@@ -333,7 +184,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRrcHN1bFMwRVVtbW9HMXFER0pobiJ9.eyJpc3MiOiJodHRwczovL25vb3JlbGRlZW5zYWxhaDIudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwZTY3NzRjMzk0ZGEzMDA2OGFmZjA4NCIsImF1ZCI6IkNvZmZlZSIsImlhdCI6MTYyNTgwMjkzNSwiZXhwIjoxNjI1ODg5MzM1LCJhenAiOiJSbjB2WEtiNVJadFZmeGtvdFc4QVZlNUJpM1VmeVprMiIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmRyaW5rcy1kZXRhaWwiXX0.DMpHL8SCADbPLTVIMjGbp6_CQCG1_r5cFeZya37m6soArLhmpIvExImjmt9fdSOLzQt58PvoWpg2u-dzXQLWy-YLLG_pTKALg19_NcTlCe_emrHyk701X9Zyw3eTfi9NXcPJ4gP6bKkEtk8vqLu98A7kwJ8726QYU3Xpcjn5YXQOXYtm07bAGxZLrfYNiVXuRzcwR0mj-NqE6CyG2qu2cwbG2IYSd79iOYFn_4U7UlW-bQ1jgjWE2yOkYMWaGCkxpGU8OYY7vwbdXfXD-C4-T1BWoaKDIRPWVuvUetaeb_WMd46kzo4q_ed7CukMKGYAzmdUAw0PylRk1PJbUaZ56g",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRrcHN1bFMwRVVtbW9HMXFER0pobiJ9.eyJpc3MiOiJodHRwczovL25vb3JlbGRlZW5zYWxhaDIudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwZjc1OWExZTE2YjkxMDA2YWQyMzI1YiIsImF1ZCI6IkNhc3RpbmdBZ2VuY3lBUEkiLCJpYXQiOjE2MjY4MzEyMzksImV4cCI6MTYyNjkxNzYzOSwiYXpwIjoiWklEcXVpWW1makljbjdsQ0RCQ3puQm9RUTBybFFwTGkiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.bvSQutk4hOJl79TC4I13BsSq8-Yqoru6NegLsN20z78Dm8_3nGjgmA3WhyQFgmCN-TSC8TgMBBm3NikrcoEpAVRiujqDAy80df9auAmntaPgi3n4R8ehgYP5nVYkiJ_IRefNRJRy4AGJZWyl2hS_7NkyCqA-iy30za6oRym7uIg-pAbWhU_Vq06i-F99NIwKZunaIN3Kjl960t_uCWzijwHp4paRhsy7RyWoGpXfUwOee4riGfKpoRBFt2dK3cHAtpO_NZ3J4IpmgSGtdZKlfbkkKMbguPvLMfHu7V4VBqG7J58ddX1HJeMXXd6HuLiDrs2TJdQlNJ231wr1_qvuFA",
 						"type": "string"
 					}
 				]
@@ -360,10 +211,10 @@
 			]
 		},
 		{
-			"name": "manager",
+			"name": "Casting Director",
 			"item": [
 				{
-					"name": "/drinks",
+					"name": "/movies",
 					"event": [
 						{
 							"listen": "test",
@@ -371,11 +222,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains drinks array\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.drinks).to.be.an('array')",
 									"});"
 								],
 								"type": "text/javascript"
@@ -386,19 +232,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks",
+							"raw": "{{host}}/movies",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks"
+								"movies"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/drinks-detail",
+					"name": "/actors",
 					"event": [
 						{
 							"listen": "test",
@@ -406,11 +252,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains drinks array\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.drinks).to.be.an('array')",
 									"});"
 								],
 								"type": "text/javascript"
@@ -421,19 +262,195 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks-detail",
+							"raw": "{{host}}/actors",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks-detail"
+								"actors"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/drinks",
+					"name": "/actors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Morgan Freeman\",\r\n    \"age\": 84,\r\n    \"gender\": \"Male\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/actors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"actors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actors/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Tim Robbins\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/actors/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"actors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movies/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/movies/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actors/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/actors/10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"actors",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRrcHN1bFMwRVVtbW9HMXFER0pobiJ9.eyJpc3MiOiJodHRwczovL25vb3JlbGRlZW5zYWxhaDIudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwZjc1OWYzMGY4NjY0MDA2OTI5Yjk2ZiIsImF1ZCI6IkNhc3RpbmdBZ2VuY3lBUEkiLCJpYXQiOjE2MjY4MzEzMDgsImV4cCI6MTYyNjkxNzcwOCwiYXpwIjoiWklEcXVpWW1makljbjdsQ0RCQ3puQm9RUTBybFFwTGkiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIl19.PORtN49MJ9MzdPS0yUdj0W_qXt_i373wfhjGaPA0u0XT6HFXoyRwHmb3tNeryi4rx_8iDQuyYZ02YcrCaxkJPBsnTgEgLiQpSwlWoPaYDKEQ6DPdisMhLPIlj4gyOrgxXFGv5a-8pNMErSRUA_UimaGW7U0o3SItZ8X0i2XaT5QMAHD6cqnxyjFiUnaAEJ7nf9toB67p6xnhxFrHiinfFNyh1ICucKjxdUgFArbpX5HKbyybIfjd98893TK4TcSrSgFXOAf8avhQYg5MaI7JrPau5TAKME8dJx9Jd4XovIs2pse8oAq0D30Aj4S47Qj71r5xcx-7lGJPd-hvhCFb1Q",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Executive Producer",
+			"item": [
+				{
+					"name": "/movies",
 					"event": [
 						{
 							"listen": "test",
@@ -441,6 +458,67 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/movies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/actors",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"actors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/movies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -459,34 +537,29 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Udaci-Spici Latte\",\n    \"recipe\": [\n        {\n            \"name\": \"Blue Foam\",\n            \"color\": \"#cdf4fe\",\n            \"parts\": 1\n        },\n        {\n            \"name\": \"Blueberry\",\n            \"color\": \"#02b3e4\",\n            \"parts\": 2\n        }\n    ]\n}"
+							"raw": "{\n    \"title\": \"The Shawshink Redemption\",\n    \"release_date\": \"September 10, 1994\",\n    \"genre\": \"Prison|Drama|Crime Fiction\"\n}"
 						},
 						"url": {
-							"raw": "{{host}}/drinks",
+							"raw": "{{host}}/movies",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks"
+								"movies"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/drinks/1",
+					"name": "/actors/1",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"value contains drinks array\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.drinks).to.be.an('array')",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -505,15 +578,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Water5\"\n}"
+							"raw": "{\n    \"gender\": \"Male\",\n    \"name\": \"Tim Robbins\"\n}"
 						},
 						"url": {
-							"raw": "{{host}}/drinks/1",
+							"raw": "{{host}}/actors/1",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks",
+								"actors",
 								"1"
 							]
 						}
@@ -521,14 +594,14 @@
 					"response": []
 				},
 				{
-					"name": "/drinks/1",
+					"name": "/movies/1",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -539,13 +612,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks/1",
+							"raw": "{{host}}/movies/5",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"drinks",
-								"1"
+								"movies",
+								"5"
 							]
 						}
 					},
@@ -557,7 +630,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRrcHN1bFMwRVVtbW9HMXFER0pobiJ9.eyJpc3MiOiJodHRwczovL25vb3JlbGRlZW5zYWxhaDIudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwZTY3NzczNDQ3ODYwMDA2OTk3ZDg4YiIsImF1ZCI6IkNvZmZlZSIsImlhdCI6MTYyNTgwMjc1MCwiZXhwIjoxNjI1ODg5MTUwLCJhenAiOiJSbjB2WEtiNVJadFZmeGtvdFc4QVZlNUJpM1VmeVprMiIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmRyaW5rcyIsImdldDpkcmlua3MtZGV0YWlsIiwicGF0Y2g6ZHJpbmtzIiwicG9zdDpkcmlua3MiXX0.B7HCe_SuTYUo892dMD25vxNVSSuHt5f_AAcPBqNbjjatE9xix0BDbk8lLp7noZwuuaL1qNLWoog_WWom-cuyUnZv_l6XOwyeVVivNnYmJA3-4_dMXaUmEG-OxpSSjq0DffBaf4YO0nhJs_ndx-MAjnQw6V6_iyDKzDFK_HJSCPjJHR-ZflbgHbFycAe9ifiLL57-TllMHfD_xOfNFEqZ72VZJt2Z6uSPtI_Mm9S5C-BstzOf40M65Vzaulhw0zGqZFv_s5w3O2gmqpV1qYgPypHlov-lr3-S_9Mt76_heBoHLkci6iTBuGbkm3XbYNmV7d6jaZUlY31-rDNMc4q8DQ",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRrcHN1bFMwRVVtbW9HMXFER0pobiJ9.eyJpc3MiOiJodHRwczovL25vb3JlbGRlZW5zYWxhaDIudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwZjc1YTZiMjQ1NGYyMDA2YTIyMzg5YyIsImF1ZCI6IkNhc3RpbmdBZ2VuY3lBUEkiLCJpYXQiOjE2MjY4MzEzODksImV4cCI6MTYyNjkxNzc4OSwiYXpwIjoiWklEcXVpWW1makljbjdsQ0RCQ3puQm9RUTBybFFwTGkiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.BtI4SRNweiXIJOcOwkJ5DCPPdJ0GvsSTnNmCNuSHSJuAwdwv6pZ-6jxhwtUkewRs2L9BnU1vGdN-RnnbZzqo3Pv2uYWDgWvn1G6VC7GN8gUWN4GEGrfw6dR41Oy0KWlHTlJAD_xBf2vFbXlEKn1eGnCr-80opBCZ926XLrucJHVMQqHigUhLdLp6GxAcVxSVSMI-Yp0w1MD2DR3hy3iuhmV6Kq7lqFVwCrD-ayr_wVA6YEjtQIdvEOe8Y9hY-Z-Qe8IPhaOQb1K_SRZuna8fK3PqP1m153tW8ErLNpfA4JOUKUc7JmOL6XA5hU_u-m2AcymKiqZDjldPHBv70AOOpQ",
 						"type": "string"
 					}
 				]
@@ -607,8 +680,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "localhost:5000",
-			"type": "string"
+			"value": "http://127.0.0.1:5000"
 		}
 	]
 }

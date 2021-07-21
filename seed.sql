@@ -111,7 +111,7 @@ insert into movie_actor (movie_id, actor_id) values (31, 7);
 insert into movie_actor (movie_id, actor_id) values (22, 35);
 insert into movie_actor (movie_id, actor_id) values (28, 26);
 insert into movie_actor (movie_id, actor_id) values (26, 7);
-insert into movie_actor (movie_id, actor_id) values (31, 7);
+insert into movie_actor (movie_id, actor_id) values (31, 8);
 insert into movie_actor (movie_id, actor_id) values (30, 17);
 insert into movie_actor (movie_id, actor_id) values (26, 23);
 insert into movie_actor (movie_id, actor_id) values (21, 8);
