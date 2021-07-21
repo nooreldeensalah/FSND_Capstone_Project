@@ -23,21 +23,24 @@ def create_app(test_config=None):
         return response
 
     @app.route("/movies")
-    def get_movies():
+    @requires_auth("get:movies")
+    def get_movies(jwt_token):
         page = request.args.get("page", 1, type=int)
         movies_per_page = request.args.get("limit", 10, type=int)
         movies = Movie.query.paginate(page, movies_per_page).items
         return jsonify({"movies": [movie.format() for movie in movies]})
 
     @app.route("/actors")
-    def get_actors():
+    @requires_auth("get:actors")
+    def get_actors(jwt_token):
         page = request.args.get("page", 1, type=int)
         actors_per_page = request.args.get("limit", 10, type=int)
         actors = Actor.query.paginate(page, actors_per_page).items
         return jsonify({"actors": [actor.format() for actor in actors]})
 
     @app.route("/movies", methods=["POST"])
-    def insert_movie():
+    @requires_auth("post:movies")
+    def insert_movie(jwt_token):
         request_body = request.get_json()
         if any([not request_body[key] for key in request_body]):
             abort(400)
@@ -53,7 +56,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route("/actors", methods=["POST"])
-    def insert_actor():
+    @requires_auth("post:actors")
+    def insert_actor(jwt_token):
         request_body = request.get_json()
         if any([not request_body[key] for key in request_body]):
             abort(400)
@@ -72,19 +76,22 @@ def create_app(test_config=None):
     #  For the sake of simplicity, I'll use 404.
 
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
-    def delete_movie(movie_id):
+    @requires_auth("delete:movies")
+    def delete_movie(jwt_token, movie_id):
         movie = Movie.query.get(movie_id)
         movie.delete() if movie is not None else abort(404)
         return flask.Response(status=204)
 
     @app.route("/actors/<int:actor_id>", methods=["DELETE"])
-    def delete_actor(actor_id):
+    @requires_auth("delete:actors")
+    def delete_actor(jwt_token, actor_id):
         actor = Movie.query.get(actor_id)
         actor.delete() if actor is not None else abort(404)
         return flask.Response(status=204)
 
     @app.route("/movies/<int:movie_id>", methods=["PUT"])
-    def update_movie(movie_id):
+    @requires_auth("put:movies")
+    def update_movie(jwt_token, movie_id):
         movie = Movie.query.get(movie_id)
         if movie is None:
             abort(404)
@@ -105,7 +112,8 @@ def create_app(test_config=None):
         return flask.Response(status=204)
 
     @app.route("/actors/<int:actor_id>", methods=["PUT"])
-    def update_actor(actor_id):
+    @requires_auth("put:actors")
+    def update_actor(jwt_token, actor_id):
         actor = Actor.query.get(actor_id)
         if actor is None:
             abort(404)
@@ -131,7 +139,8 @@ def create_app(test_config=None):
     # The first method adds an actor to a movie's cast.
     # The second methods adds a movie to an actor's past/present movies list.
     @app.route("/movies/<int:movie_id>/actors/<int:actor_id>", methods=["POST"])
-    def add_actor_to_movie_cast(movie_id, actor_id):
+    @requires_auth("post:movies")
+    def add_actor_to_movie_cast(jwt_token, movie_id, actor_id):
         movie = Movie.query.get(movie_id)
         actor = Actor.query.get(actor_id)
         if actor is None or movie is None:
@@ -140,7 +149,8 @@ def create_app(test_config=None):
         return flask.Response(status=204)
 
     @app.route("/actors/<int:actor_id>/movies/<int:movie_id>", methods=["POST"])
-    def add_movie_to_actor_movies_list(actor_id, movie_id):
+    @requires_auth("post:actors")
+    def add_movie_to_actor_movies_list(jwt_token, actor_id, movie_id):
         actor = Actor.query.get(actor_id)
         movie = Movie.query.get(movie_id)
         if actor is None or movie is None:
