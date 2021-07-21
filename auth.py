@@ -9,7 +9,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
-API_AUDIENCE = os.getenv("CastingAgencyAPI")
+API_AUDIENCE = os.getenv("API_AUDIENCE")
 ALGORITHMS = ["RS256"]
 
 

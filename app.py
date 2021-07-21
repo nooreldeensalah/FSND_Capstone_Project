@@ -18,7 +18,7 @@ def create_app(test_config=None):
     def after_request(response):
         allowed_headers = "Content-Type,Authorization,true"
         response.headers.add("Access-Control-Allow-Headers", allowed_headers)
-        allowed_methods = "GET,PUT,POST,DELETE,OPTIONS"
+        allowed_methods = "GET,POST,PATCH,DELETE,OPTIONS"
         response.headers.add("Access-Control-Allow-Methods", allowed_methods)
         return response
 
@@ -89,8 +89,8 @@ def create_app(test_config=None):
         actor.delete() if actor is not None else abort(404)
         return flask.Response(status=204)
 
-    @app.route("/movies/<int:movie_id>", methods=["PUT"])
-    @requires_auth("put:movies")
+    @app.route("/movies/<int:movie_id>", methods=["PATCH"])
+    @requires_auth("patch:movies")
     def update_movie(jwt_token, movie_id):
         movie = Movie.query.get(movie_id)
         if movie is None:
@@ -111,8 +111,8 @@ def create_app(test_config=None):
             abort(422)
         return flask.Response(status=204)
 
-    @app.route("/actors/<int:actor_id>", methods=["PUT"])
-    @requires_auth("put:actors")
+    @app.route("/actors/<int:actor_id>", methods=["PATCH"])
+    @requires_auth("patch:actors")
     def update_actor(jwt_token, actor_id):
         actor = Actor.query.get(actor_id)
         if actor is None:
