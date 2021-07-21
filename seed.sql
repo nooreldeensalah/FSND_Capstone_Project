@@ -9,6 +9,24 @@
 
 
 */
+BEGIN;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'gender') THEN
+        CREATE TYPE gender AS ENUM ('Male', 'Female');
+    END IF;
+END
+$$;
+
+CREATE TABLE IF NOT EXISTS actor (
+        id SERIAL NOT NULL,
+        name VARCHAR(100) NOT NULL,
+        age INTEGER NOT NULL,
+        gender gender NOT NULL,
+        PRIMARY KEY (id)
+);
+
 insert into Actor (name, age, gender) values ('Denny Good', 37, 'Male');
 insert into Actor (name, age, gender) values ('Quincey Mahomet', 39, 'Female');
 insert into Actor (name, age, gender) values ('Merrile Aaronsohn', 75, 'Male');
@@ -54,7 +72,13 @@ insert into Actor (name, age, gender) values ('Cassandra Wallicker', 17, 'Male')
 
 
 */
-
+CREATE TABLE IF NOT EXISTS movie (
+        id SERIAL NOT NULL,
+        title VARCHAR(100) NOT NULL,
+        release_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+        genre VARCHAR(80) NOT NULL,
+        PRIMARY KEY (id)
+);
 insert into Movie (title, release_date, genre) values ('Aankhen', '3/11/1998', 'Comedy|Crime|Thriller');
 insert into Movie (title, release_date, genre) values ('Prime of Miss Jean Brodie, The', '5/2/2007', 'Drama');
 insert into Movie (title, release_date, genre) values ('Beyond Bedlam', '10/17/2008', 'Drama|Horror');
@@ -100,6 +124,14 @@ insert into Movie (title, release_date, genre) values ('The Italian Connection',
                              |_____|
 
 */
+CREATE TABLE IF NOT EXISTS movie_actor (
+        movie_id INTEGER NOT NULL,
+        actor_id INTEGER NOT NULL,
+        PRIMARY KEY (movie_id, actor_id),
+        FOREIGN KEY(movie_id) REFERENCES movie (id),
+        FOREIGN KEY(actor_id) REFERENCES actor (id)
+);
+
 insert into movie_actor (movie_id, actor_id) values (32, 35);
 insert into movie_actor (movie_id, actor_id) values (3, 19);
 insert into movie_actor (movie_id, actor_id) values (14, 23);
@@ -135,3 +167,6 @@ insert into movie_actor (movie_id, actor_id) values (29, 22);
 insert into movie_actor (movie_id, actor_id) values (17, 4);
 insert into movie_actor (movie_id, actor_id) values (24, 34);
 insert into movie_actor (movie_id, actor_id) values (14, 7);
+
+
+COMMIT;

@@ -8,8 +8,11 @@ CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
 db = SQLAlchemy()
 
 
-def setup_db(app):
-    app.config["SQLALCHEMY_DATABASE_URI"] = CONNECTION_STRING
+# There are two databases created.
+# 1) CastingAgencyDB (Default Database).
+# 2) TestCastingAgencyDB (Used for testing).
+def setup_db(app, connection_string=CONNECTION_STRING):
+    app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = os.urandom(32)
     db.app = app
@@ -32,7 +35,8 @@ class Movie(db.Model):
     actors = db.relationship("Actor", secondary="movie_actor", backref="movies")
 
     def add_actor(self, actor):
-        self.actors.append(actor)
+        if actor not in self.actors:
+            self.actors.append(actor)
         db.session.commit()
 
     def insert(self):
@@ -68,7 +72,8 @@ class Actor(db.Model):
     gender = db.Column(db.Enum("Male", "Female", name="gender"), nullable=False)
 
     def add_movie(self, movie):
-        self.movies.append(movie)
+        if movie not in self.movies:
+            self.movies.append(movie)
         db.session.commit()
 
     def insert(self):

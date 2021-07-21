@@ -85,7 +85,7 @@ def create_app(test_config=None):
     @app.route("/actors/<int:actor_id>", methods=["DELETE"])
     @requires_auth("delete:actors")
     def delete_actor(jwt_token, actor_id):
-        actor = Movie.query.get(actor_id)
+        actor = Actor.query.get(actor_id)
         actor.delete() if actor is not None else abort(404)
         return flask.Response(status=204)
 
@@ -138,8 +138,8 @@ def create_app(test_config=None):
     # And an actor has a list of movies that he is/was featured in.
     # The first method adds an actor to a movie's cast.
     # The second methods adds a movie to an actor's past/present movies list.
-    @app.route("/movies/<int:movie_id>/actors/<int:actor_id>", methods=["POST"])
-    @requires_auth("post:movies")
+    @app.route("/movies/<int:movie_id>/actors/<int:actor_id>", methods=["PATCH"])
+    @requires_auth("patch:movies")
     def add_actor_to_movie_cast(jwt_token, movie_id, actor_id):
         movie = Movie.query.get(movie_id)
         actor = Actor.query.get(actor_id)
@@ -148,8 +148,8 @@ def create_app(test_config=None):
         movie.add_actor(actor)
         return flask.Response(status=204)
 
-    @app.route("/actors/<int:actor_id>/movies/<int:movie_id>", methods=["POST"])
-    @requires_auth("post:actors")
+    @app.route("/actors/<int:actor_id>/movies/<int:movie_id>", methods=["PATCH"])
+    @requires_auth("patch:actors")
     def add_movie_to_actor_movies_list(jwt_token, actor_id, movie_id):
         actor = Actor.query.get(actor_id)
         movie = Movie.query.get(movie_id)
@@ -187,7 +187,6 @@ def create_app(test_config=None):
 
 
 APP = create_app()
-
 
 if __name__ == "__main__":
     APP.run(host="0.0.0.0", port=8080, debug=False)
