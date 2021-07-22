@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bb90c45e-1d59-496b-bb3a-958e0e33a12d",
+		"_postman_id": "1bc8ad9a-f88a-4256-a3de-c82211eb0fe1",
 		"name": "Casting Agency",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -680,7 +680,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "http://127.0.0.1:5000"
+			"value": "https://glacial-ridge-22649.herokuapp.com"
 		}
 	]
 }

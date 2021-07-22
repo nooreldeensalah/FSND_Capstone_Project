@@ -3,8 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
-CONNECTION_STRING_LOCAL = os.getenv("DB_CONNECTION_STRING")
-CONNECTION_STRING_REMOTE = os.getenv("DATABASE_URL_HEROKU")
+CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
 
 db = SQLAlchemy()
 
@@ -12,7 +11,7 @@ db = SQLAlchemy()
 # There are two databases created.
 # 1) CastingAgencyDB (Default Database).
 # 2) TestCastingAgencyDB (Used for testing).
-def setup_db(app, connection_string=CONNECTION_STRING_REMOTE):
+def setup_db(app, connection_string=CONNECTION_STRING):
     app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = os.urandom(32)
