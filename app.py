@@ -22,6 +22,10 @@ def create_app(test_config=None):
         response.headers.add("Access-Control-Allow-Methods", allowed_methods)
         return response
 
+    @app.route("/")
+    def get_index_page():
+        return flask.render_template("index.html")
+
     @app.route("/movies")
     @requires_auth("get:movies")
     def get_movies(jwt_token):
@@ -47,7 +51,8 @@ def create_app(test_config=None):
         try:
             title = request_body["title"]
             # Expected datetime format example: "March 11, 1998"
-            release_date = datetime.strptime(request_body["release_date"], "%B %d, %Y")
+            release_date = datetime.strptime(
+                request_body["release_date"], "%B %d, %Y")
             genre = request_body["genre"]
             movie = Movie(title=title, release_date=release_date, genre=genre)
             movie.insert()
@@ -72,7 +77,8 @@ def create_app(test_config=None):
     #  -------------
     #  From this link: https://restfulapi.net/http-methods/#delete
     #  it's stated that DELETE operations with no response should return 204.
-    #  I found that the community is divided whether if deleting non-existent resources should return 404, or 204
+    #  I found that the community is divided whether
+    #  if deleting non-existent resources should return 404, or 204
     #  For the sake of simplicity, I'll use 404.
 
     @app.route("/movies/<int:movie_id>", methods=["DELETE"])
@@ -105,7 +111,8 @@ def create_app(test_config=None):
             if genre:
                 movie.genre = genre
             if release_date:
-                movie.release_date = datetime.strptime(release_date, "%B %d, %Y")
+                movie.release_date = datetime.strptime(
+                    release_date, "%B %d, %Y")
             movie.update()
         except BaseException:
             abort(422)
@@ -133,12 +140,13 @@ def create_app(test_config=None):
             abort(422)
         return flask.Response(status=204)
 
-    # I've designed models to be a many-to-many relationship between actors and movies.
+    # I've designed the models to havev a many-to-many relationship.
     # For a specific movie, there's a cast of actors.
     # And an actor has a list of movies that he is/was featured in.
     # The first method adds an actor to a movie's cast.
     # The second methods adds a movie to an actor's past/present movies list.
-    @app.route("/movies/<int:movie_id>/actors/<int:actor_id>", methods=["PATCH"])
+    @app.route("/movies/<int:movie_id>/actors/<int:actor_id>",
+               methods=["PATCH"])
     @requires_auth("patch:movies")
     def add_actor_to_movie_cast(jwt_token, movie_id, actor_id):
         movie = Movie.query.get(movie_id)
@@ -148,7 +156,8 @@ def create_app(test_config=None):
         movie.add_actor(actor)
         return flask.Response(status=204)
 
-    @app.route("/actors/<int:actor_id>/movies/<int:movie_id>", methods=["PATCH"])
+    @app.route("/actors/<int:actor_id>/movies/<int:movie_id>",
+               methods=["PATCH"])
     @requires_auth("patch:actors")
     def add_movie_to_actor_movies_list(jwt_token, actor_id, movie_id):
         actor = Actor.query.get(actor_id)
@@ -161,7 +170,8 @@ def create_app(test_config=None):
     @app.errorhandler(AuthError)
     def authorization_error(error):
         status_code = error.status_code
-        return jsonify({"error": status_code, "message": error.error}), status_code
+        return jsonify(
+            {"error": status_code, "message": error.error}), status_code
 
     @app.errorhandler(400)
     def bad_request(error):

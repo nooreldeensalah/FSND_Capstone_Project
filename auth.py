@@ -77,10 +77,11 @@ def verify_decode_jwt(token):
 
         except jwt.JWTClaimsError:
             raise AuthError(
-                "Invalid claims: Please check the audience and the issuer.", 401
+                "Invalid claims:Please check the audience and the issuer", 401
             )
         except Exception:
-            raise AuthError("Invalid Header: Unable to parse authentication token", 400)
+            raise AuthError(
+                "Invalid Header: Unable to parse authentication token", 400)
     raise AuthError("Invalid Header: Unable to find the appropriate key.", 400)
 
 

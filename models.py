@@ -3,7 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
-CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
+CONNECTION_STRING_LOCAL = os.getenv("DB_CONNECTION_STRING")
+CONNECTION_STRING_REMOTE = os.getenv("DATABASE_URL_HEROKU")
 
 db = SQLAlchemy()
 
@@ -11,7 +12,7 @@ db = SQLAlchemy()
 # There are two databases created.
 # 1) CastingAgencyDB (Default Database).
 # 2) TestCastingAgencyDB (Used for testing).
-def setup_db(app, connection_string=CONNECTION_STRING):
+def setup_db(app, connection_string=CONNECTION_STRING_REMOTE):
     app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = os.urandom(32)
@@ -21,8 +22,16 @@ def setup_db(app, connection_string=CONNECTION_STRING):
 
 association_table = db.Table(
     "movie_actor",
-    db.Column("movie_id", db.Integer, db.ForeignKey("movie.id"), primary_key=True),
-    db.Column("actor_id", db.Integer, db.ForeignKey("actor.id"), primary_key=True),
+    db.Column(
+        "movie_id",
+        db.Integer,
+        db.ForeignKey("movie.id"),
+        primary_key=True),
+    db.Column(
+        "actor_id",
+        db.Integer,
+        db.ForeignKey("actor.id"),
+        primary_key=True),
 )
 
 
@@ -32,7 +41,10 @@ class Movie(db.Model):
     title = db.Column(db.String(100), nullable=False)
     release_date = db.Column(db.DateTime, nullable=False)
     genre = db.Column(db.String(80), nullable=False)
-    actors = db.relationship("Actor", secondary="movie_actor", backref="movies")
+    actors = db.relationship(
+        "Actor",
+        secondary="movie_actor",
+        backref="movies")
 
     def add_actor(self, actor):
         if actor not in self.actors:
@@ -61,7 +73,10 @@ class Movie(db.Model):
         }
 
     def __repr__(self):
-        return f"Movie(title={self.title}, genre={self.genre}, release_date={self.release_date.strftime('%B %d, %Y')})"
+        return (
+            f"Movie(title={self.title}, genre={self.genre},"
+            f" release_date={self.release_date.strftime('%B %d, %Y')})"
+        )
 
 
 class Actor(db.Model):
@@ -69,7 +84,12 @@ class Actor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    gender = db.Column(db.Enum("Male", "Female", name="gender"), nullable=False)
+    gender = db.Column(
+        db.Enum(
+            "Male",
+            "Female",
+            name="gender"),
+        nullable=False)
 
     def add_movie(self, movie):
         if movie not in self.movies:

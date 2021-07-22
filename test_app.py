@@ -7,17 +7,17 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 TEST_DB_CONNECTION_STRING = os.getenv("TEST_DB_CONNECTION_STRING")
+
+CASTING_ASSISTANT_TOKEN = os.getenv("CASTING_ASSISTANT_TOKEN")
+CASTING_DIRECTOR_TOKEN = os.getenv("CASTING_DIRECTOR_TOKEN")
 EXECUTIVE_PRODUCER_TOKEN = os.getenv("EXECUTIVE_PRODUCER_TOKEN")
 
-EXECUTIVE_PRODUCER_HEADERS = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {EXECUTIVE_PRODUCER_TOKEN}",
-}
 
-
-# NOTE TO REVIEWER: This file only covers tests for endpoints functionality,
-# Authorization and Authentication tests are implemented in the postman collection attached.
-# For simplicity, I'll use the executive producer token because it contains all the permissions.
+def create_headers(token):
+    return {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
 
 
 class CastingAgencyTestCase(unittest.TestCase):
@@ -27,7 +27,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         setup_db(self.app, TEST_DB_CONNECTION_STRING)
 
     def test_get_movies(self):
-        response = self.client.get("/movies", headers=EXECUTIVE_PRODUCER_HEADERS)
+        response = self.client.get(
+            "/movies",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN))
         data = response.get_json()
         movies = data.get("movies", None)
 
@@ -36,7 +38,8 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_get_movies_invalid_page(self):
         response = self.client.get(
-            "/movies?page=99999", headers=EXECUTIVE_PRODUCER_HEADERS
+            "/movies?page=99999",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN)
         )
         data = response.get_json()
         movies = data.get("movies", None)
@@ -45,7 +48,9 @@ class CastingAgencyTestCase(unittest.TestCase):
         self.assertIsNone(movies)
 
     def test_get_actors(self):
-        response = self.client.get("/actors", headers=EXECUTIVE_PRODUCER_HEADERS)
+        response = self.client.get(
+            "/actors",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN))
         data = response.get_json()
         actors = data.get("actors", None)
 
@@ -54,7 +59,8 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_get_actors_invalid_page(self):
         response = self.client.get(
-            "/actors?page=99999", headers=EXECUTIVE_PRODUCER_HEADERS
+            "/actors?page=99999",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN)
         )
         data = response.get_json()
         actors = data.get("actors", None)
@@ -65,7 +71,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_add_new_movie(self):
         response = self.client.post(
             "/movies",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={
                 "title": "Titanic",
                 "genre": "Romance",
@@ -80,7 +86,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_add_new_movie_with_missing_fields(self):
         response = self.client.post(
             "/movies",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={"title": "Titanic_4", "release_date": ""},
         )
         movie = Movie.query.filter(Movie.title == "Titanic_4").first()
@@ -91,7 +97,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_add_new_actor(self):
         response = self.client.post(
             "/actors",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={
                 "name": "John Doe",
                 "gender": "Male",
@@ -106,7 +112,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_add_new_actor_with_missing_fields(self):
         response = self.client.post(
             "/actors",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={"title": "First Last", "gender": ""},
         )
         actor = Actor.query.filter(Actor.name == "First Last").first()
@@ -116,13 +122,12 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_delete_existing_movie(self):
         # Arrange
-        Movie(
-            id=9912, title="Titanic", genre="Romance", release_date=datetime.now()
-        ).insert()
+        Movie(id=9912, title="Titanic", genre="Romance",
+              release_date=datetime.now()).insert()
         # Act
         response = self.client.delete(
             "/movies/9912",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
         )
 
         # Assert
@@ -132,7 +137,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_delete_non_existing_movie(self):
         response = self.client.delete(
             "/movies/991250",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
         )
 
         self.assertEqual(response.status_code, 404)
@@ -144,7 +149,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         # Act
         response = self.client.delete(
             "/actors/9912",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
         )
         # Assert
         self.assertEqual(response.status_code, 204)
@@ -153,7 +158,7 @@ class CastingAgencyTestCase(unittest.TestCase):
     def test_delete_non_existing_actor(self):
         response = self.client.delete(
             "/actors/991235",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
         )
 
         self.assertEqual(response.status_code, 404)
@@ -161,13 +166,12 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_update_movie(self):
         # Arrange
-        Movie(
-            id=9912, title="Titanic", genre="Romance", release_date=datetime.now()
-        ).insert()
+        Movie(id=9912, title="Titanic", genre="Romance",
+              release_date=datetime.now()).insert()
         # Act
         response = self.client.patch(
             "/movies/9912",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={"title": "The Shawshink Redemption"},
         )
         # Assert
@@ -179,13 +183,12 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_update_movie_unprocessable_date(self):
         # Arrange
-        Movie(
-            id=9912, title="Titanic", genre="Romance", release_date=datetime.now()
-        ).insert()
+        Movie(id=9912, title="Titanic", genre="Romance",
+              release_date=datetime.now()).insert()
         # Act
         response = self.client.patch(
             "/movies/9912",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={"title": 50, "release_date": "Not a date"},
         )
         # Assert
@@ -201,7 +204,7 @@ class CastingAgencyTestCase(unittest.TestCase):
         # Act
         response = self.client.patch(
             "/actors/9912",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
             json={"name": "Noor Salah", "age": 46},
         )
         # Assert
@@ -218,8 +221,11 @@ class CastingAgencyTestCase(unittest.TestCase):
         # Act
         response = self.client.patch(
             "/actors/9912",
-            headers=EXECUTIVE_PRODUCER_HEADERS,
-            json={"name": 1232, "age": "Not a number", "gender": "Not a gender"},
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN),
+            json={
+                "name": 1232,
+                "age": "Not a number",
+                "gender": "Not a gender"},
         )
         # Assert
         test_actor = Actor.query.get(9912)
@@ -232,7 +238,8 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_add_actor_to_movie_cast(self):
         response = self.client.patch(
-            "/movies/1/actors/1", headers=EXECUTIVE_PRODUCER_HEADERS
+            "/movies/1/actors/1",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN)
         )
 
         test_movie = Movie.query.get(1)
@@ -243,7 +250,8 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_add_non_existing_actor_to_movie_cast(self):
         response = self.client.patch(
-            "/movies/1/actors/9999232", headers=EXECUTIVE_PRODUCER_HEADERS
+            "/movies/1/actors/9999232",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN)
         )
 
         test_movie = Movie.query.get(1)
@@ -253,7 +261,8 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_add_movie_to_actor_movies_list(self):
         response = self.client.patch(
-            "/actors/1/movies/1", headers=EXECUTIVE_PRODUCER_HEADERS
+            "/actors/1/movies/1",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN)
         )
 
         test_actor = Actor.query.get(1)
@@ -264,7 +273,59 @@ class CastingAgencyTestCase(unittest.TestCase):
 
     def test_add_non_existing_movie_to_non_existing_actor_list(self):
         response = self.client.patch(
-            "/actors/999123/movies/9912312", headers=EXECUTIVE_PRODUCER_HEADERS
+            "/actors/999123/movies/9912312",
+            headers=create_headers(EXECUTIVE_PRODUCER_TOKEN)
         )
 
         self.assertEqual(response.status_code, 404)
+
+    def test_get_actor_unauthenticated(self):
+        response = self.client.get("/actors")
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_add_actor_unauthorized(self):
+        response = self.client.post(
+            "/actors",
+            headers=create_headers(CASTING_ASSISTANT_TOKEN),
+            json={
+                "name": "John Doe",
+                "gender": "Male",
+                "age": 46,
+            },
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_patch_actor_unauthorized(self):
+        response = self.client.patch(
+            "/movies/9912",
+            headers=create_headers(CASTING_ASSISTANT_TOKEN),
+            json={"title": "The Shawshink Redemption"},
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_create_movie_unauthorized(self):
+        response = self.client.post(
+            "/movies",
+            headers=create_headers(CASTING_DIRECTOR_TOKEN),
+            json={
+                "title": "WILL_NOT_BE_ADDED",
+                "genre": "Romance",
+                "release_date": "November 18, 1997",
+            },
+        )
+        movie = Movie.query.filter(Movie.title == "WILL_NOT_BE_ADDED").first()
+
+        self.assertEqual(response.status_code, 403)
+        self.assertIsNone(movie)
+
+    def test_delete_movie_unauthorized(self):
+        response = self.client.delete(
+            "/movies/5",
+            headers=create_headers(CASTING_DIRECTOR_TOKEN),
+        )
+
+        movie = Movie.query.get(5)
+        self.assertEqual(response.status_code, 403)
+        self.assertIsNotNone(movie)
