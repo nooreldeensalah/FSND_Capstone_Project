@@ -53,7 +53,7 @@ heroku pg:psql
 ```
 \i seed_after_migration.sql
 ```
-You can now exist and test the application endpoints.
+You can now exit and test the application endpoints.
 ## Local Setup
 To get the project working locally, you will need to create a virtual environment.
 ```
